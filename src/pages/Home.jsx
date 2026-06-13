@@ -7,6 +7,7 @@ import WorldAtGlance from '../components/home/WorldAtGlance';
 import LatestStories from '../components/home/LatestStories';
 import TrendingStories from '../components/home/TrendingStories';
 import CategorySection from '../components/home/CategorySection';
+import TopCategorySection from '../components/home/TopCategorySection';
 import TwoColumnDashedList from '../components/home/TwoColumnDashedList';
 
 const Home = () => {
@@ -58,8 +59,8 @@ const Home = () => {
   };
 
   const validCategories = Object.entries(categories).filter(([_, articles]) => articles && articles.length > 0);
-  const topCategories = validCategories.slice(0, 2); // Show 2 categories next to trending to fill space
-  const bottomCategories = validCategories.slice(2);
+  const topCategories = validCategories.slice(0, 1); // Only 1 top category using the special layout
+  const bottomCategories = validCategories.slice(1);
 
   return (
     <>
@@ -104,7 +105,7 @@ const Home = () => {
           
           <div className="w-full xl:w-3/4">
             {topCategories.map(([categorySlug, articles]) => (
-              <CategorySection 
+              <TopCategorySection 
                 key={categorySlug} 
                 title={categorySlug} 
                 categorySlug={categorySlug} 

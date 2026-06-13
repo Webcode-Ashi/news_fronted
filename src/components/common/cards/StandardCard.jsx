@@ -2,13 +2,13 @@ import { Link } from 'react-router-dom';
 import Image from '../../ui/Image';
 import { formatPublishedDate } from '../../../utils/date';
 
-const StandardCard = ({ article, showImage = true }) => {
+const StandardCard = ({ article, showImage = true, hideSummary = false }) => {
   if (!article) return null;
 
   const { slug, title, image, shortSummary, source, publishedAt } = article;
 
   return (
-    <article className="group flex flex-col pb-6 border-b border-dashed border-text-primary/30 last:border-b-0">
+    <article className="group flex flex-col pb-6 border-b border-dashed border-text-primary/30 last:border-b-0 h-full">
       {showImage && (
         <Link to={`/news/${slug}`} className="block mb-4 overflow-hidden">
           <Image 
@@ -26,7 +26,7 @@ const StandardCard = ({ article, showImage = true }) => {
         </h3>
       </Link>
       
-      {shortSummary && (
+      {!hideSummary && shortSummary && (
         <p className="text-text-secondary font-sans text-sm md:text-base mb-4 line-clamp-3">
           {shortSummary}
         </p>

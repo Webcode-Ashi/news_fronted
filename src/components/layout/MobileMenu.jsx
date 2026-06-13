@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { X, Check } from 'lucide-react';
 import clsx from 'clsx';
@@ -9,13 +9,12 @@ const CATEGORIES = [
   'Gulf', 'China', 'Africa', 'Security', 'Media', 'CEO Signal', 'magni-fi-Idea World Economy'
 ];
 
-const ThemeButton = ({ name, themeValue, bgClass, textClass, borderClass = '' }) => {
-  const { theme, setTheme } = useTheme();
-  const isActive = theme === themeValue;
+const ThemeButton = ({ name, themeValue, bgClass, textClass, borderClass = '', previewTheme, setPreviewTheme }) => {
+  const isActive = previewTheme === themeValue;
 
   return (
     <button
-      onClick={() => setTheme(themeValue)}
+      onClick={() => setPreviewTheme(themeValue)}
       className={clsx(
         "relative py-2 px-1 text-[10px] sm:text-xs font-bold font-sans uppercase tracking-wider rounded-sm flex items-center justify-center overflow-hidden transition-all duration-300",
         bgClass, textClass, borderClass,
@@ -30,6 +29,15 @@ const ThemeButton = ({ name, themeValue, bgClass, textClass, borderClass = '' })
 
 const MobileMenu = ({ isOpen, onClose }) => {
   const location = useLocation();
+  const { theme, setTheme } = useTheme();
+  const [previewTheme, setPreviewTheme] = useState(theme);
+
+  // Reset preview theme to current applied theme when menu opens
+  useEffect(() => {
+    if (isOpen) {
+      setPreviewTheme(theme);
+    }
+  }, [isOpen, theme]);
 
   useEffect(() => {
     const handleEscape = (e) => {
@@ -38,6 +46,10 @@ const MobileMenu = ({ isOpen, onClose }) => {
     window.addEventListener('keydown', handleEscape);
     return () => window.removeEventListener('keydown', handleEscape);
   }, [onClose]);
+
+  const handleApplyTheme = () => {
+    setTheme(previewTheme);
+  };
 
   return (
     <>
@@ -102,31 +114,43 @@ const MobileMenu = ({ isOpen, onClose }) => {
 
           {/* Shows and Links Section */}
           <div className="border-t border-dotted border-text-muted/40 pt-6 flex flex-col gap-6">
-            <div className="flex flex-col gap-3">
-              <Link to="/events" className="font-serif text-xl font-bold hover:text-accent-red">Events</Link>
-              <Link to="/newsletter" className="font-serif text-xl font-bold hover:text-accent-red">Email Briefings</Link>
-              <span className="font-serif text-xl font-bold text-text-primary">Shows</span>
-
-              <div className="grid grid-cols-3 gap-2 mt-2">
-                <div className="aspect-square bg-[#E8E6D9] flex items-center justify-center p-1 text-center text-xs font-serif font-bold leading-tight">The CEO Signal</div>
-                <div className="aspect-square bg-[#E8E6D9] flex items-center justify-center p-1 text-center text-xs font-serif font-bold leading-tight">Mixed Signals</div>
-                <div className="aspect-square bg-[#E8E6D9] flex items-center justify-center p-1 text-center text-[10px] font-serif font-bold leading-tight">Compound Interest</div>
+            
+            {/* Theme Settings */}
+            <div className="flex flex-col gap-4">
+              <span className="font-serif text-xl font-bold text-text-primary mb-2">Settings</span>
+              
+              <div className="flex flex-col gap-3">
+                <div className="flex items-center justify-between">
+                  <span className="font-sans text-xs font-bold uppercase tracking-wider text-text-secondary">Color Theme</span>
+                  {previewTheme !== theme && (
+                    <button 
+                      onClick={handleApplyTheme}
+                      className="px-3 py-1 bg-accent-red text-white text-[10px] font-bold uppercase tracking-wider rounded-sm hover:bg-red-700 transition-colors"
+                    >
+                      Apply Theme
+                    </button>
+                  )}
+                </div>
+                <div className="grid grid-cols-3 gap-2">
+                  <ThemeButton name="Default" themeValue="default" bgClass="bg-[#F4F0DD]" textClass="text-[#1A1A1A]" previewTheme={previewTheme} setPreviewTheme={setPreviewTheme} />
+                  <ThemeButton name="Dark" themeValue="dark" bgClass="bg-[#121212]" textClass="text-[#FFFFFF]" previewTheme={previewTheme} setPreviewTheme={setPreviewTheme} />
+                  <ThemeButton name="Maroon" themeValue="maroon" bgClass="bg-[#4A0E17]" textClass="text-[#FFFFFF]" previewTheme={previewTheme} setPreviewTheme={setPreviewTheme} />
+                  <ThemeButton name="Sky Blue" themeValue="sky-blue" bgClass="bg-[#E0F7FA]" textClass="text-[#003B46]" previewTheme={previewTheme} setPreviewTheme={setPreviewTheme} />
+                  <ThemeButton name="Algae" themeValue="algae-green" bgClass="bg-[#1A3C2A]" textClass="text-[#FFFFFF]" previewTheme={previewTheme} setPreviewTheme={setPreviewTheme} />
+                  <ThemeButton name="Snow" themeValue="snow-white" bgClass="bg-[#FFFFFF]" textClass="text-[#1A1A1A]" borderClass="border border-gray-300" previewTheme={previewTheme} setPreviewTheme={setPreviewTheme} />
+                </div>
               </div>
             </div>
 
-            <div className="border-t border-dotted border-text-muted/40 pt-6 flex flex-col gap-4">
-              <span className="font-serif text-xl font-bold text-text-primary mb-2">Settings</span>
+            <div className="border-t border-dotted border-text-muted/40 pt-6 flex flex-col gap-3">
+              <Link to="/events" className="font-serif text-xl font-bold hover:text-accent-red">Events</Link>
+              <Link to="/newsletter" className="font-serif text-xl font-bold hover:text-accent-red">Email Briefings</Link>
+              <span className="font-serif text-xl font-bold text-text-primary mt-2">Shows</span>
 
-              <div className="flex flex-col gap-2">
-                <span className="font-sans text-xs font-bold uppercase tracking-wider text-text-secondary">Color Theme</span>
-                <div className="grid grid-cols-3 gap-2">
-                  <ThemeButton name="Default" themeValue="default" bgClass="bg-[#F1EED5]" textClass="text-[#1A1A1A]" />
-                  <ThemeButton name="Dark" themeValue="dark" bgClass="bg-[#121212]" textClass="text-[#F1EED5]" />
-                  <ThemeButton name="Maroon" themeValue="maroon" bgClass="bg-[#4A0E17]" textClass="text-[#FFFFFF]" />
-                  <ThemeButton name="Sky Blue" themeValue="sky-blue" bgClass="bg-[#E0F7FA]" textClass="text-[#003B46]" />
-                  <ThemeButton name="Algae" themeValue="algae-green" bgClass="bg-[#1A3C2A]" textClass="text-[#FFFFFF]" />
-                  <ThemeButton name="Snow" themeValue="snow-white" bgClass="bg-[#FFFFFF]" textClass="text-[#1A1A1A]" borderClass="border border-gray-300" />
-                </div>
+              <div className="grid grid-cols-3 gap-2 mt-2">
+                <div className="aspect-square bg-[#E8E6D9] text-black flex items-center justify-center p-1 text-center text-xs font-serif font-bold leading-tight">The CEO Signal</div>
+                <div className="aspect-square bg-[#E8E6D9] text-black flex items-center justify-center p-1 text-center text-xs font-serif font-bold leading-tight">Mixed Signals</div>
+                <div className="aspect-square bg-[#E8E6D9] text-black flex items-center justify-center p-1 text-center text-[10px] font-serif font-bold leading-tight">Compound Interest</div>
               </div>
             </div>
 

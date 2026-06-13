@@ -7,27 +7,24 @@ export const ThemeProvider = ({ children }) => {
     return localStorage.getItem('app-theme') || 'default';
   });
 
+  const setTheme = (newTheme) => {
+    setThemeState(newTheme);
+    localStorage.setItem('app-theme', newTheme);
+  };
+
   useEffect(() => {
-    const root = document.documentElement;
     if (theme === 'default') {
-      root.removeAttribute('data-theme');
+      document.documentElement.removeAttribute('data-theme');
     } else {
-      root.setAttribute('data-theme', theme);
+      document.documentElement.setAttribute('data-theme', theme);
     }
-    localStorage.setItem('app-theme', theme);
   }, [theme]);
 
   return (
-    <ThemeContext.Provider value={{ theme, setTheme: setThemeState }}>
+    <ThemeContext.Provider value={{ theme, setTheme }}>
       {children}
     </ThemeContext.Provider>
   );
 };
 
-export const useTheme = () => {
-  const context = useContext(ThemeContext);
-  if (!context) {
-    throw new Error('useTheme must be used within a ThemeProvider');
-  }
-  return context;
-};
+export const useTheme = () => useContext(ThemeContext);
