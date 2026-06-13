@@ -80,9 +80,10 @@ const Header = ({ toggleMenu }) => {
             <ClockIcon time="LAGOS" />
           </div>
           
-          <Link to="/" className="inline-block mx-4">
-            <h1 className="text-6xl md:text-[5.5rem] font-serif font-black tracking-tighter leading-none text-text-primary">
-              magni-fi-Idea<span className="text-accent-red">.</span>
+          <Link to="/" className="inline-block mx-2 sm:mx-4">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-[5.5rem] font-serif font-black tracking-tighter leading-none text-text-primary transition-all">
+              <span className="sm:hidden">m-Idea</span>
+              <span className="hidden sm:inline">magni-fi-Idea</span><span className="text-accent-red">.</span>
             </h1>
           </Link>
 

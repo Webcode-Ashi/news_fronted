@@ -17,10 +17,11 @@ const Footer = () => {
         <div className="md:col-span-6">
           <Link to="/" className="inline-flex items-center gap-4 mb-6">
             <h2 className="text-4xl md:text-5xl font-serif font-black tracking-tighter text-text-primary">
-              magni-fi-Idea<span className="text-accent-red">.</span>
+              <span className="sm:hidden">m-Idea</span>
+              <span className="hidden sm:inline">magni-fi-Idea</span><span className="text-accent-red">.</span>
             </h2>
           </Link>
-          <p className="font-serif text-2xl md:text-3xl text-text-secondary max-w-sm leading-tight">
+          <p className="font-serif text-xl md:text-3xl text-text-secondary max-w-sm leading-tight">
             Intelligence for the New World Economy
           </p>
         </div>

@@ -18,14 +18,14 @@ const CategorySection = ({ title, categorySlug, articles, isLoading }) => {
       </div>
 
       {isLoading ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
           {Array.from({ length: 5 }).map((_, i) => <CardSkeleton key={i} />)}
         </div>
       ) : (
-        <div className="flex flex-col gap-10">
+        <div className="flex flex-col gap-6 sm:gap-8">
           {/* Top row: 2 larger articles */}
           {articles?.length > 0 && (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
               {articles.slice(0, 2).map((article) => (
                 <StandardCard key={article._id || article.slug} article={article} />
               ))}
@@ -34,7 +34,7 @@ const CategorySection = ({ title, categorySlug, articles, isLoading }) => {
           
           {/* Bottom row: up to 3 smaller articles */}
           {articles?.length > 2 && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 pt-4 border-t border-border">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 pt-4 border-t border-border">
               {articles.slice(2, 5).map((article) => (
                 <StandardCard key={article._id || article.slug} article={article} />
               ))}
