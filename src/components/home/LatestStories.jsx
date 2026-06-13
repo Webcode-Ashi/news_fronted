@@ -4,7 +4,7 @@ import { CardSkeleton } from '../ui/Skeleton';
 const LatestStories = ({ articles, isLoading }) => {
   return (
     <section className="mb-16 md:mb-24">
-      <div className="flex justify-between items-end mb-8 border-b border-border pb-4">
+      <div className="flex justify-between items-end mb-8 border-b border-dashed border-text-primary/30 pb-4">
         <h2 className="text-3xl font-serif font-bold text-text-primary">
           Latest Stories
         </h2>

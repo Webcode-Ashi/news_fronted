@@ -7,7 +7,7 @@ const FeaturedCard = ({ article }) => {
   const { slug, title, image, category } = article;
 
   return (
-    <article className="group relative overflow-hidden bg-text-primary text-white h-full min-h-[300px] flex flex-col justify-end">
+    <article className="group relative overflow-hidden bg-text-primary text-white h-full min-h-[300px] flex flex-col justify-end border-b border-dashed border-text-primary/30 pb-6 last:border-b-0">
       <div className="absolute inset-0 z-0">
         <Image 
           src={image} 

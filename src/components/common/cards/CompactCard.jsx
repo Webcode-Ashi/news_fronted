@@ -7,7 +7,7 @@ const CompactCard = ({ article, index }) => {
   const { slug, title, source, publishedAt } = article;
 
   return (
-    <article className="group flex items-start gap-4 py-4 border-b border-border last:border-b-0">
+    <article className="group flex items-start gap-4 py-4 border-b border-dashed border-text-primary/30 last:border-b-0">
       {typeof index !== 'undefined' && (
         <span className="text-accent-red font-serif text-2xl font-bold mt-[-4px]">
           {index + 1}

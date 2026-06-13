@@ -3,19 +3,31 @@ import { createContext, useContext, useState, useEffect } from 'react';
 const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {
-  const [theme, setTheme] = useState('light'); // default to light
+  const [theme, setThemeState] = useState(() => {
+    return localStorage.getItem('app-theme') || 'default';
+  });
 
   useEffect(() => {
-    // In future, you can implement dark mode switching here
-    // For now, it stays strictly in the premium 'light' (Semafor cream) theme.
-    document.documentElement.classList.add('theme-light');
+    const root = document.documentElement;
+    if (theme === 'default') {
+      root.removeAttribute('data-theme');
+    } else {
+      root.setAttribute('data-theme', theme);
+    }
+    localStorage.setItem('app-theme', theme);
   }, [theme]);
 
   return (
-    <ThemeContext.Provider value={{ theme, setTheme }}>
+    <ThemeContext.Provider value={{ theme, setTheme: setThemeState }}>
       {children}
     </ThemeContext.Provider>
   );
 };
 
-export const useTheme = () => useContext(ThemeContext);
+export const useTheme = () => {
+  const context = useContext(ThemeContext);
+  if (!context) {
+    throw new Error('useTheme must be used within a ThemeProvider');
+  }
+  return context;
+};

@@ -8,7 +8,7 @@ const StandardCard = ({ article, showImage = true }) => {
   const { slug, title, image, shortSummary, source, publishedAt } = article;
 
   return (
-    <article className="group flex flex-col">
+    <article className="group flex flex-col pb-6 border-b border-dashed border-text-primary/30 last:border-b-0">
       {showImage && (
         <Link to={`/news/${slug}`} className="block mb-4 overflow-hidden">
           <Image 

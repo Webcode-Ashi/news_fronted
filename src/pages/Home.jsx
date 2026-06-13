@@ -7,6 +7,7 @@ import WorldAtGlance from '../components/home/WorldAtGlance';
 import LatestStories from '../components/home/LatestStories';
 import TrendingStories from '../components/home/TrendingStories';
 import CategorySection from '../components/home/CategorySection';
+import TwoColumnDashedList from '../components/home/TwoColumnDashedList';
 
 const Home = () => {
   const { data: homeData, isLoading, error } = useQuery({
@@ -56,6 +57,10 @@ const Home = () => {
     entertainment
   };
 
+  const validCategories = Object.entries(categories).filter(([_, articles]) => articles && articles.length > 0);
+  const topCategories = validCategories.slice(0, 2); // Show 2 categories next to trending to fill space
+  const bottomCategories = validCategories.slice(2);
+
   return (
     <>
       <Helmet>
@@ -66,15 +71,15 @@ const Home = () => {
       <div className="max-w-7xl mx-auto px-4 md:px-6 xl:px-8 py-8 md:py-12">
         
         {/* TOP SECTION: 3-COLUMN LAYOUT */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-16 md:mb-24 border-b border-border pb-12">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-16 md:mb-24 border-b border-dashed border-text-primary/30 pb-12">
           
           {/* LEFT COLUMN: World at a Glance */}
-          <div className="lg:col-span-3 lg:border-r lg:border-border lg:pr-6">
+          <div className="lg:col-span-3 lg:border-r lg:border-dashed lg:border-text-primary/30 lg:pr-6">
             <WorldAtGlance />
           </div>
 
           {/* CENTER COLUMN: Hero Story */}
-          <div className="lg:col-span-6 lg:border-r lg:border-border lg:pr-6">
+          <div className="lg:col-span-6 lg:border-r lg:border-dashed lg:border-text-primary/30 lg:pr-6">
             {isLoading ? (
               <HeroSkeleton />
             ) : heroStory ? (
@@ -91,30 +96,43 @@ const Home = () => {
           
         </div>
 
-        {/* TWO COLUMN LAYOUT: TRENDING (Sidebar) + CATEGORIES (Main) */}
-        <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
+        {/* NEW DASHED TEXT-ONLY SECTION */}
+        <TwoColumnDashedList articles={top10Latest?.slice(0, 4)} isLoading={isLoading} />
+
+        {/* TWO COLUMN LAYOUT: TOP CATEGORY (Main) + TRENDING (Sidebar) */}
+        <div className="flex flex-col xl:flex-row gap-8 xl:gap-12 mb-16 md:mb-24">
           
-          <div className="w-full lg:w-2/3">
-            {Object.entries(categories).map(([categorySlug, articles]) => {
-              if (!articles || articles.length === 0) return null;
-              return (
-                <CategorySection 
-                  key={categorySlug} 
-                  title={categorySlug} 
-                  categorySlug={categorySlug} 
-                  articles={articles} 
-                  isLoading={isLoading} 
-                />
-              );
-            })}
+          <div className="w-full xl:w-3/4">
+            {topCategories.map(([categorySlug, articles]) => (
+              <CategorySection 
+                key={categorySlug} 
+                title={categorySlug} 
+                categorySlug={categorySlug} 
+                articles={articles} 
+                isLoading={isLoading} 
+              />
+            ))}
           </div>
-          
-          <div className="w-full lg:w-1/3">
+
+          <div className="w-full xl:w-1/4 xl:border-l border-dashed border-text-primary/30 xl:pl-8">
             <div className="sticky top-24">
               <TrendingStories articles={trending} isLoading={isLoading} />
             </div>
           </div>
 
+        </div>
+
+        {/* FULL WIDTH LAYOUT: REMAINING CATEGORIES */}
+        <div className="w-full">
+          {bottomCategories.map(([categorySlug, articles]) => (
+            <CategorySection 
+              key={categorySlug} 
+              title={categorySlug} 
+              categorySlug={categorySlug} 
+              articles={articles} 
+              isLoading={isLoading} 
+            />
+          ))}
         </div>
 
       </div>

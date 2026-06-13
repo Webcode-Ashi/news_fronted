@@ -7,18 +7,18 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: '#F1EED5',
-        surface: '#FFFFFF',
+        background: 'var(--bg-color)',
+        surface: 'var(--bg-surface)',
         text: {
-          primary: '#1A1A1A',
-          secondary: '#4A4A4A',
-          muted: '#737373',
+          primary: 'var(--text-primary)',
+          secondary: 'var(--text-secondary)',
+          muted: 'var(--text-muted)',
         },
         accent: {
-          red: '#E31B23', // News accent red
+          red: 'var(--accent-red)', // News accent red
           dark: '#000000',
         },
-        border: '#E5E5E5',
+        border: 'var(--border-color)',
       },
       fontFamily: {
         serif: ['"Playfair Display"', 'Georgia', 'serif'],
